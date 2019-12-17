@@ -44,13 +44,14 @@ import crypt
 import getpass
 import random
 import sys
+from signal import signal, SIGINT
 
 
 # Change this dictionary to change supported hash methods.
 hash_methods = {
     'SHA512': crypt.METHOD_SHA512,
     'SHA256': crypt.METHOD_SHA256,
-    'MD5': crypt.METHOD_MD5,
+    'MD5':    crypt.METHOD_MD5,
 }
 
 def print_shadow(passwd, method):
@@ -82,13 +83,22 @@ def parse_args(args):
     return parser.parse_args(args)
 
 
+def handler(signal_received, frame):
+    sys.exit(0)
+
+
 def main(args):
     status = 0
 
     args = parse_args(args)
     if sys.stdin.isatty() and len(args.passwords) == 0:
-        passwd1 = getpass.getpass('Enter password: ')
-        passwd2 = getpass.getpass('Re-enter password: ')
+        try:
+            passwd1 = getpass.getpass('Enter password: ')
+            passwd2 = getpass.getpass('Re-enter password: ')
+        # Catch Ctrl-D
+        except EOFError as error:
+            return status
+
         if (passwd1 == passwd2):
             status = print_shadow(passwd1, args.method)
         else:
@@ -102,4 +112,7 @@ def main(args):
 
 
 if __name__ == '__main__':
+    signal(SIGINT, handler)
     sys.exit(main(sys.argv[1:]))
+
+
