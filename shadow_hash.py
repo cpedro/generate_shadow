@@ -99,7 +99,7 @@ def main(args):
         except EOFError as error:
             return status
 
-        if (passwd1 == passwd2):
+        if passwd1 == passwd2:
             status = print_shadow(passwd1, args.method)
         else:
             print("Passwords entered do not match.")
