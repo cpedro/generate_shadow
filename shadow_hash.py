@@ -78,7 +78,7 @@ def parse_args(args):
         help="""Hashing method to use. (default = SHA512) Available methods are:
         MD5, SHA256, and SHA512""")
     parser.add_argument('passwords', nargs='*',
-        help="Password to generate hashes for.")
+        help='Password to generate hashes for.')
 
     return parser.parse_args(args)
 
@@ -102,7 +102,7 @@ def main(args):
         if passwd1 == passwd2:
             status = print_shadow(passwd1, args.method)
         else:
-            print("Passwords entered do not match.")
+            print('Passwords entered do not match.')
             status = 1
     else:
         for passwd in args.passwords or sys.stdin:
