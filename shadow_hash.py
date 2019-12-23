@@ -75,8 +75,8 @@ def print_shadow(passwd, method):
 def parse_args(args):
     parser = argparse.ArgumentParser(description='Generate Shadow Hashes.')
     parser.add_argument('-m', '--method', default='SHA512',
-        help="""Hashing method to use. (default = SHA512) Available methods are:
-        MD5, SHA256, and SHA512""")
+        help='Hashing method to use. Available methods are: MD5, SHA256, and '
+        'SHA512, default is SHA512')
     parser.add_argument('passwords', nargs='*',
         help='Password to generate hashes for.')
 
